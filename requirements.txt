@@ -5,3 +5,5 @@ pillow
 polars
 scikit-learn
 matplotlib
+scipy
+opencv-python
