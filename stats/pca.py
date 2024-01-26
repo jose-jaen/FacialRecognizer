@@ -59,7 +59,7 @@ class PCA:
         self.scaler_ = scaler
 
         # Compute eigenvalues and eigenvectors
-        small_cov = scaled @ scaled.T
+        small_cov = (1 / (data.shape[0] - 1)) * scaled @ scaled.T
         values, vectors = np.linalg.eig(small_cov)
 
         # Sort eigenvalues and eigenvectors in descending order

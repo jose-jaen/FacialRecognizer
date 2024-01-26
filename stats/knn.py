@@ -24,7 +24,11 @@ class KNeighborsClassifier:
         self.n_neighbors = n_neighbors
         self.threshold = threshold
         self.distance = distance
+
+        # Design / feature matrix to fit the classifier
         self.data: Optional[np.ndarray] = None
+
+        # Training instance labels
         self.labels: Optional[np.ndarray] = None
 
     @property
@@ -119,7 +123,7 @@ class KNeighborsClassifier:
         # Compute statistical distance matrix
         distance = cdist(XA=self.data, XB=image, metric=self._distance)
 
-        # Get prediction
+        # Get closest training instance if threshold is not met
         if np.min(distance.T) < self._threshold:
             neighbors = np.argsort(a=distance.T)[0][:self._n_neighbors]
             prediction = mode(self.labels[neighbors])
