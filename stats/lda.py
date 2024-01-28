@@ -41,25 +41,31 @@ class LinearDiscriminantAnalysis:
             raise TypeError(f"'data' must be polars DataFrame but got '{incorrect}'")
 
         # Compute overall and class averages
-        avg_face = data.drop('labels').mean()
+        avg_face = data.drop('labels').mean().to_numpy()
         avg_class_face = data.group_by(by='labels', maintain_order=True) \
             .agg(pl.col('*').mean())
 
         # Get covariance matrices
         within = 0
         between = 0
-        total_labels = data.unique(subset='labels', maintain_order=True).select('labels')
+        total_labels = data.unique(
+            subset='labels',
+            maintain_order=True
+        ).select('labels')
         for label in total_labels['labels']:
-            class_data = data.filter(pl.col('label') == label).drop('labels').to_numpy().T
-            n_class = len(data.filter(pl.col('label') == label))
+            class_data = data.filter(pl.col('labels') == label).drop('labels')
+            n_class = len(data.filter(pl.col('labels') == label))
 
             # Update within-class covariance
-            class_within = np.cov(class_data)
+            class_within = np.cov(class_data.to_numpy().T)
             within += (n_class - 1) * class_within
 
             # Update between-class covariance
-            class_between = avg_class_face.filter(pl.col('labels') == label) - avg_face
-            between += n_class * (class_between @ class_between.T)
+            avg_class_between = avg_class_face.filter(
+                pl.col('labels') == label
+            ).drop('labels')
+            class_between = avg_class_between.to_numpy() - avg_face
+            between += n_class * (class_between.T @ class_between)
 
         # Apply optimization criterion
         criterion = np.linalg.inv(within) @ between
