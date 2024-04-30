@@ -3,7 +3,7 @@ import polars as pl
 import optuna
 from optuna.trial import Trial
 
-from fisherfaces import FisherFaces
+from stats.fisherfaces import FisherFaces
 from controllers.data_images import get_image_matrix
 
 
@@ -47,7 +47,7 @@ if __name__ == '__main__':
     # Mask non-training instances
     df = df.with_columns(
         pl.col('labels')
-        .map_elements(lambda x: x if x in train_labels else '0')
+        .map_elements(lambda x: x if x in train_labels else '0', return_dtype=str)
         .alias('masked_labels')
     )
 
@@ -73,7 +73,7 @@ if __name__ == '__main__':
         .select('labels')['labels'].to_numpy()
     df = df.with_columns(
         pl.col('labels')
-        .map_elements(lambda x: x if x in full_labels else '0')
+        .map_elements(lambda x: x if x in full_labels else '0', return_dtype=str)
         .alias('masked_labels')
     )
 
