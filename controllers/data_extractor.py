@@ -103,7 +103,7 @@ class DataExtractor:
             random_state: Seed value for reproducibility
         """
         random.seed(a=random_state)
-        np.random.seed(seed=42)
+        np.random.seed(seed=random_state)
 
         # Create directories for the images
         os.system('mkdir data')
