@@ -84,15 +84,15 @@ class DataExtractor:
         Args:
             reset: Whether to redownload the dataset or not
         """
+        if os.path.isfile('faces94') and reset:
+            os.system('rm -r faces94/')
+
+        # Download dataset
         if not os.path.isfile('faces94'):
             download = requests.get(self._url)
             zip_file = zipfile.ZipFile(io.BytesIO(download.content))
             zip_file.extractall()
-        elif os.path.isfile('faces94') and reset:
-            os.system('rm -r faces94/')
-            download = requests.get(self._url)
-            zip_file = zipfile.ZipFile(io.BytesIO(download.content))
-            zip_file.extractall()
+            print('Dataset has been successfully downloaded!')
         else:
             print('Dataset is already downloaded!')
 
@@ -106,9 +106,10 @@ class DataExtractor:
         np.random.seed(seed=random_state)
 
         # Create directories for the images
-        os.system('mkdir data')
-        os.system('mkdir data/train/')
-        os.system('mkdir data/test/')
+        if not os.path.isfile('data'):
+            os.system('mkdir data')
+            os.system('mkdir data/train/')
+            os.system('mkdir data/test/')
 
         # Check if user has the data
         if not os.path.isfile('faces94'):
@@ -173,7 +174,7 @@ class DataExtractor:
 
         # Eliminate original dataset and isolate data directory
         os.system('rm -r faces94/')
-        os.system('mv data ../data')
+        print('Train and test partitions were created!')
 
     def get_validation(self, n_valid: int) -> None:
         """Subdive train data into train and validation partitions.
@@ -181,12 +182,12 @@ class DataExtractor:
         Args:
             n_valid: Number of distinct individuals to hide from the train set
         """
-        if not os.path.isdir('../data'):
+        if not os.path.isdir('data'):
             self.get_data()
             self.set_up_data(random_state=42)
 
         # Change directory
-        os.chdir('../data/train')
+        os.chdir('data/train')
 
         # Get distinct male and female individuals
         individuals = [j.split('.')[0] for j in os.listdir()]
@@ -219,3 +220,4 @@ class DataExtractor:
                 sample = random.sample(population=images, k=2)
                 for image in sample:
                     os.system(f'mv {image} ../validation/')
+        print('Validation partition has been generated!')

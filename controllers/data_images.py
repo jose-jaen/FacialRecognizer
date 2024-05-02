@@ -19,7 +19,7 @@ def get_image_matrix(get_sobel: bool = True) -> pl.DataFrame:
     full_images = []
 
     # Change directory to where data is located
-    os.chdir('../data')
+    os.chdir('data')
     for partition in ['train', 'validation', 'test']:
         os.chdir(partition)
         images = [i for i in os.listdir() if i.endswith('.jpg')]
