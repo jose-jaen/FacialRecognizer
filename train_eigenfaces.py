@@ -18,6 +18,9 @@ def objective(
         trial: Optuna study trial for bayesian inference
         train_data: Polars DataFrame with training data
         test_data: Polars DataFrame with validation data
+
+    Returns:
+        Facial recognition accuracy
     """
     space = {
       'n_neighbors': trial.suggest_int(name='n_neighbors', low=1, high=7),
@@ -87,5 +90,5 @@ if __name__ == '__main__':
 
     # Print results
     acc = sum([i == j for i, j in zip(preds, list(test_labels))]) / len(preds)
-    print(f'Accuracy on test data: {100 * round(acc, 4)}%')
+    print(f'Accuracy on test data: {round(100 * acc, 4)}%')
     print(f'Best hyperparameters: {study.best_params}')

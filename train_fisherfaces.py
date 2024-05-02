@@ -87,5 +87,5 @@ if __name__ == '__main__':
 
     # Print results
     acc = sum([i == j for i, j in zip(preds, test_labels)]) / len(preds)
-    print(f'Accuracy on test data: {100 * round(acc, 4)}%')
+    print(f'Accuracy on test data: {round(100 * acc, 4)}%')
     print(f'Best hyperparameters: {study.best_params}')
