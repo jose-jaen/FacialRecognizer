@@ -91,14 +91,10 @@ class PCA:
 
         # Reshape color channels
         eigenface = self.components_[:, face]
-        size = height * width
-        red = eigenface[:size].reshape((height, width))
-        green = eigenface[size:2 * size].reshape((height, width))
-        blue = eigenface[2 * size:].reshape((height, width))
-
-        # Combine the components
-        image = np.stack(arrays=(red, green, blue), axis=-1)
+        image = eigenface.reshape(height, width)
 
         # Visualize eigenface
-        plt.imshow(image, interpolation='nearest')
+        plt.imshow(image, cmap='viridis')
+        plt.title('Eigenface visualization')
+        plt.colorbar()
         plt.show()
