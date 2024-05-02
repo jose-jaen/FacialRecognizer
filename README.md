@@ -17,7 +17,7 @@ Furthermore, an AI model (**Convolutional Neural Network**) is trained replicati
 
 ## Demo
 
-Check the Jupyter Notebook showcasing the models with additional information about the algorithms.
+Check the <a href="https://github.com/jose-jaen/FacialRecognizer/blob/main/demo.ipynb" rel="noreferrer noopener" target="_blank">Jupyter Notebook</a> showcasing the models with additional information about the algorithms.
 
 ## Requirements
 
