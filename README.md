@@ -2,7 +2,7 @@
 
 A personal project leveraging both Statistical Learning and Deep Learning techniques to accurately recognize and classify faces. 
 
-`PyTorch` and `polars` are used for efficiently handle the data in a distrubuted fashion. 
+`PyTorch` and `polars` are used for efficiently handling the data in a distrubuted fashion. 
 
 The <a target="_blank" rel="noopener noreferrer" href="https://cmp.felk.cvut.cz/~spacelib/faces/">`faces94`</a> dataset is utilized to train and evaluate models.
 
